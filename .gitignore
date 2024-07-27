@@ -6,3 +6,6 @@ db.sqlite3
 
 # Python cache
 __pycache__
+
+# Visual Studio Code
+.vscode
