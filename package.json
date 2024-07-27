@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "watch:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch",
+    "build:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css",
+    "postinstall": "npm run build:css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.7"
+  }
+}

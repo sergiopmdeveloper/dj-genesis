@@ -6,3 +6,12 @@ db.sqlite3
 
 # Python cache
 __pycache__
+
+# Visual Studio Code
+.vscode
+
+# Node modules
+node_modules
+
+# Tailwind CSS
+static/css/output.css
