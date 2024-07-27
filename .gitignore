@@ -9,3 +9,9 @@ __pycache__
 
 # Visual Studio Code
 .vscode
+
+# Node modules
+node_modules
+
+# Tailwind CSS
+static/css/output.css
