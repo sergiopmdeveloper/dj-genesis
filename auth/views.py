@@ -21,13 +21,13 @@ def sign_in(request: HttpRequest) -> HttpResponse:
     """
 
     if request.method == "POST" and request.htmx:
-        email = request.POST.get("email")
+        username = request.POST.get("username")
         password = request.POST.get("password")
 
         errors = []
 
-        if not email:
-            errors.append("Email is required")
+        if not username:
+            errors.append("Username is required")
 
         if not password:
             errors.append("Password is required")
