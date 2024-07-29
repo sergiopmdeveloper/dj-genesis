@@ -8,7 +8,7 @@
         <div class="w-[27.5rem] bg-gray-100 p-6 mx-2 rounded">
             <h1 class="text-4xl font-bold">Sign in</h1>
 
-            <form class="flex flex-col gap-2 mt-6" hx-post="{% url 'sign-in' %}">
+            <form class="flex flex-col gap-2 mt-6" hx-post="{% url 'sign-in' %}" hx-target="#errors">
                 {% csrf_token %}
 
                 <div class="flex flex-col gap-1">
@@ -22,6 +22,8 @@
                     <input class="w-full h-8 pl-2 rounded focus:border-gray-800" name="password" id="password"
                         autocomplete="current-password">
                 </div>
+
+                <div id="errors"></div>
 
                 <button class="text-white bg-gray-800 mt-6 py-2 rounded hover:brightness-125"
                     type="submit">Send</button>
