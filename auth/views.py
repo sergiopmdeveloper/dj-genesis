@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 from django_htmx.http import HttpResponseClientRedirect
 
 
+@never_cache
 @require_http_methods(["GET", "POST"])
 def sign_in(request: HttpRequest) -> HttpResponse:
     """
