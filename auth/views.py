@@ -1,9 +1,11 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 from django_htmx.http import HttpResponseClientRedirect
+
+from auth.utils.sign_in import SignInHandler
 
 
 @never_cache
@@ -27,28 +29,27 @@ def sign_in(request: HttpRequest) -> HttpResponse:
         return redirect("home")
 
     if request.method == "POST" and request.htmx:
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        sign_in_handler = SignInHandler(
+            request=request,
+            username=request.POST.get("username"),
+            password=request.POST.get("password"),
+        )
 
-        errors = []
+        sign_in_handler.validate_data()
 
-        if not username:
-            errors.append("Username is required")
+        if sign_in_handler.invalid:
+            return render(
+                request, "form-errors.html", {"errors": sign_in_handler.errors}
+            )
 
-        if not password:
-            errors.append("Password is required")
+        sign_in_handler.validate_user()
 
-        if errors:
-            return render(request, "form-errors.html", {"errors": errors})
+        if sign_in_handler.invalid:
+            return render(
+                request, "form-errors.html", {"errors": sign_in_handler.errors}
+            )
 
-        user = authenticate(request, username=username, password=password)
-
-        if not user:
-            errors.append("Invalid username or password")
-
-            return render(request, "form-errors.html", {"errors": errors})
-
-        login(request, user)
+        login(request, sign_in_handler.user)
 
         return HttpResponseClientRedirect("/")
 
