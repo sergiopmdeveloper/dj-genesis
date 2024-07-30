@@ -30,7 +30,8 @@
             </form>
 
             {% if from_redirection %}
-            <span class="absolute -top-10 left-0 text-xs bg-red-300 text-red-700 px-1.5 py-1 rounded">Forbidden</span>
+            <span class="absolute -top-10 left-0 text-xs bg-red-300 text-red-700 px-1.5 py-1 rounded"
+                x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show">Forbidden</span>
             {% endif %}
         </div>
     </div>
