@@ -1,8 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django_htmx.http import HttpResponseClientRefresh
 
 
+@login_required(login_url="sign-in")
 def home(request: HttpRequest) -> HttpResponse:
     """
     The home view
@@ -17,9 +18,5 @@ def home(request: HttpRequest) -> HttpResponse:
     HttpResponse
         The rendered home page
     """
-
-    if request.htmx:
-        print("htmx is working!")
-        return HttpResponseClientRefresh()
 
     return render(request, "base/home.html")

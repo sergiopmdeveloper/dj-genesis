@@ -1,7 +1,8 @@
+from django.contrib.auth import authenticate, login
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
-from django_htmx.http import HttpResponseClientRefresh
+from django_htmx.http import HttpResponseClientRedirect
 
 
 @require_http_methods(["GET", "POST"])
@@ -20,6 +21,9 @@ def sign_in(request: HttpRequest) -> HttpResponse:
         The rendered sign in page
     """
 
+    if request.user.is_authenticated:
+        return redirect("home")
+
     if request.method == "POST" and request.htmx:
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -35,6 +39,17 @@ def sign_in(request: HttpRequest) -> HttpResponse:
         if errors:
             return render(request, "form-errors.html", {"errors": errors})
 
-        return HttpResponseClientRefresh()
+        user = authenticate(request, username=username, password=password)
 
-    return render(request, "auth/sign-in.html")
+        if not user:
+            errors.append("Invalid username or password")
+
+            return render(request, "form-errors.html", {"errors": errors})
+
+        login(request, user)
+
+        return HttpResponseClientRedirect("/")
+
+    from_redirection = bool(request.GET.get("next"))
+
+    return render(request, "auth/sign-in.html", {"from_redirection": from_redirection})
