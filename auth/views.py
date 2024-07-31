@@ -75,4 +75,10 @@ def sign_up(request: HttpRequest) -> HttpResponse:
         The rendered sign up page
     """
 
+    if request.user.is_authenticated:
+        return redirect("home")
+
+    if request.method == "POST" and request.htmx:
+        return render(request, "form-errors.html", {"errors": ["Not implemented..."]})
+
     return render(request, "auth/sign-up.html")
