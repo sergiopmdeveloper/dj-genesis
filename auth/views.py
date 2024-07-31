@@ -56,3 +56,23 @@ def sign_in(request: HttpRequest) -> HttpResponse:
     from_redirection = bool(request.GET.get("next"))
 
     return render(request, "auth/sign-in.html", {"from_redirection": from_redirection})
+
+
+@never_cache
+@require_http_methods(["GET", "POST"])
+def sign_up(request: HttpRequest) -> HttpResponse:
+    """
+    The sign up view
+
+    Parameters
+    ----------
+    request : HttpRequest
+        The request object
+
+    Returns
+    -------
+    HttpResponse
+        The rendered sign up page
+    """
+
+    return render(request, "auth/sign-up.html")
