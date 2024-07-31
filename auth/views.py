@@ -3,9 +3,10 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
-from django_htmx.http import HttpResponseClientRedirect
+from django_htmx.http import HttpResponseClientRedirect, HttpResponseClientRefresh
 
 from auth.utils.sign_in import SignInHandler
+from auth.utils.sign_up import SignUpHandler
 
 
 @never_cache
@@ -79,6 +80,20 @@ def sign_up(request: HttpRequest) -> HttpResponse:
         return redirect("home")
 
     if request.method == "POST" and request.htmx:
-        return render(request, "form-errors.html", {"errors": ["Not implemented..."]})
+        sign_up_handler = SignUpHandler(
+            request=request,
+            username=request.POST.get("username"),
+            email=request.POST.get("email"),
+            password=request.POST.get("password"),
+        )
+
+        sign_up_handler.validate_data()
+
+        if sign_up_handler.invalid:
+            return render(
+                request, "form-errors.html", {"errors": sign_up_handler.errors}
+            )
+
+        return HttpResponseClientRefresh()
 
     return render(request, "auth/sign-up.html")
