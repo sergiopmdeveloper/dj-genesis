@@ -1,6 +1,7 @@
 from typing import Optional
 
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.http import HttpRequest
 
 from auth.utils.abstract_auth import AbstractAuth
@@ -76,4 +77,12 @@ class SignUpHandler(AbstractAuth):
         Validates the user
         """
 
-        pass
+        user = User(username=self.username, email=self.email, password=self.password)
+
+        try:
+            user.full_clean()
+        except ValidationError as e:
+            self.errors.extend(e.messages)
+            return
+
+        self.user = user

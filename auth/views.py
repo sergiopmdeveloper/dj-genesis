@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
-from django_htmx.http import HttpResponseClientRedirect, HttpResponseClientRefresh
+from django_htmx.http import HttpResponseClientRedirect
 
 from auth.utils.sign_in import SignInHandler
 from auth.utils.sign_up import SignUpHandler
@@ -94,6 +94,16 @@ def sign_up(request: HttpRequest) -> HttpResponse:
                 request, "form-errors.html", {"errors": sign_up_handler.errors}
             )
 
-        return HttpResponseClientRefresh()
+        sign_up_handler.validate_user()
+
+        if sign_up_handler.invalid:
+            return render(
+                request, "form-errors.html", {"errors": sign_up_handler.errors}
+            )
+
+        sign_up_handler.user.save()
+        login(request, sign_up_handler.user)
+
+        return HttpResponseClientRedirect("/")
 
     return render(request, "auth/sign-up.html")
