@@ -27,9 +27,9 @@ def test_sign_in_handler_init(client: Client):
 @pytest.mark.parametrize(
     "username, password, errors, invalid",
     [
-        ("", "", ["Username is required", "Password is required"], True),
-        ("username", "", ["Password is required"], True),
-        ("", "password", ["Username is required"], True),
+        ("", "", ["Username is required.", "Password is required."], True),
+        ("username", "", ["Password is required."], True),
+        ("", "password", ["Username is required."], True),
         ("username", "password", [], False),
     ],
 )
@@ -69,7 +69,7 @@ def test_sign_in_handler_validate_user_invalid_credentials(client: Client):
     sign_in_handler.validate_user()
 
     assert sign_in_handler.user is None
-    assert sign_in_handler.errors == ["Invalid credentials"]
+    assert sign_in_handler.errors == ["Invalid credentials."]
 
 
 @pytest.mark.django_db

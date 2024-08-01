@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpRequest
 
+from auth.utils.abstract_auth import AbstractAuth
 
-class SignInHandler:
+
+class SignInHandler(AbstractAuth):
     """
     The sign in handler
 
