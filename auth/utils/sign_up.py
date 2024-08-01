@@ -1,8 +1,8 @@
 from typing import Optional
 
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.http import HttpRequest
 
 from auth.utils.abstract_auth import AbstractAuth
 
@@ -25,16 +25,12 @@ class SignUpHandler(AbstractAuth):
         The user
     """
 
-    def __init__(
-        self, request: HttpRequest, username: str, email: str, password: str
-    ) -> None:
+    def __init__(self, username: str, email: str, password: str) -> None:
         """
         Initializes the sign up handler
 
         Parameters
         ----------
-        request : HttpRequest
-            The request object
         username : str
             The username
         email : str
@@ -43,7 +39,6 @@ class SignUpHandler(AbstractAuth):
             The password
         """
 
-        self.request = request
         self.username = username
         self.email = email
         self.password = password
@@ -64,13 +59,13 @@ class SignUpHandler(AbstractAuth):
         """
 
         if not self.username:
-            self.errors.append("Username is required")
+            self.errors.append("Username is required.")
 
         if not self.email:
-            self.errors.append("Email is required")
+            self.errors.append("Email is required.")
 
         if not self.password:
-            self.errors.append("Password is required")
+            self.errors.append("Password is required.")
 
     def validate_user(self) -> None:
         """
@@ -83,6 +78,11 @@ class SignUpHandler(AbstractAuth):
             user.full_clean()
         except ValidationError as e:
             self.errors.extend(e.messages)
-            return
 
-        self.user = user
+        try:
+            validate_password(self.password)
+        except ValidationError as e:
+            self.errors.append(list(e.messages)[0])
+
+        if not self.errors:
+            self.user = user

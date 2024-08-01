@@ -81,7 +81,6 @@ def sign_up(request: HttpRequest) -> HttpResponse:
 
     if request.method == "POST" and request.htmx:
         sign_up_handler = SignUpHandler(
-            request=request,
             username=request.POST.get("username"),
             email=request.POST.get("email"),
             password=request.POST.get("password"),

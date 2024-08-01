@@ -69,10 +69,10 @@ class SignInHandler:
         """
 
         if not self.username:
-            self.errors.append("Username is required")
+            self.errors.append("Username is required.")
 
         if not self.password:
-            self.errors.append("Password is required")
+            self.errors.append("Password is required.")
 
     def validate_user(self) -> None:
         """
@@ -84,4 +84,4 @@ class SignInHandler:
         )
 
         if not self.user:
-            self.errors.append("Invalid credentials")
+            self.errors.append("Invalid credentials.")
