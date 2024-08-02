@@ -1,58 +1,46 @@
 from typing import Optional
 
-from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from django.http import HttpRequest
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 from auth.utils.abstract_auth import AbstractAuth
 
 
-class SignInHandler(AbstractAuth):
+class SignUpHandler(AbstractAuth):
     """
-    The sign in handler
+    The sign up handler
 
     Attributes
     ----------
-    request : HttpRequest
-        The request object
     username : str
         The username
+    email : str
+        The email
     password : str
         The password
     errors : list[str]
         The list of errors
     user : Optional[User]
         The user
-
-    Properties
-    ----------
-    invalid : bool
-        True if there are errors, False otherwise
-
-    Methods
-    -------
-    validate_data()
-        Validates the data
-    validate_user()
-        Validates the user
     """
 
-    def __init__(self, request: HttpRequest, username: str, password: str) -> None:
+    def __init__(self, username: str, email: str, password: str) -> None:
         """
-        Initializes the sign in handler
+        Initializes the sign up handler
 
         Parameters
         ----------
-        request : HttpRequest
-            The request object
         username : str
             The username
+        email : str
+            The email
         password : str
             The password
         """
 
-        self.request = request
         self.username = username
+        self.email = email
         self.password = password
         self.errors: list[str] = []
         self.user: Optional[User] = None
@@ -73,6 +61,9 @@ class SignInHandler(AbstractAuth):
         if not self.username:
             self.errors.append("Username is required.")
 
+        if not self.email:
+            self.errors.append("Email is required.")
+
         if not self.password:
             self.errors.append("Password is required.")
 
@@ -81,9 +72,17 @@ class SignInHandler(AbstractAuth):
         Validates the user
         """
 
-        self.user = authenticate(
-            self.request, username=self.username, password=self.password
-        )
+        user = User(username=self.username, email=self.email, password=self.password)
 
-        if not self.user:
-            self.errors.append("Invalid credentials.")
+        try:
+            user.full_clean()
+        except ValidationError as e:
+            self.errors.extend(e.messages)
+
+        try:
+            validate_password(self.password)
+        except ValidationError as e:
+            self.errors.append(list(e.messages)[0])
+
+        if not self.errors:
+            self.user = user
