@@ -4,10 +4,6 @@
 
 {% block body %}
 <main>
-    <h1 class="font-bold text-blue-500">Home page with Tailwind CSS</h1>
-
-    <button hx-get="" hx-trigger="click">
-        htmx
-    </button>
+    <button class="bg-red-300 text-red-700 px-1.5 py-1 rounded" hx-get="{% url 'sign-out' %}">Sign out</button>
 </main>
 {% endblock body %}

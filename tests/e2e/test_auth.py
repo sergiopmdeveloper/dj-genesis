@@ -170,3 +170,19 @@ def test_sign_up_post_success(client: Client):
 
     assert response.status_code == 200
     assert client.session["_auth_user_id"]
+
+
+@pytest.mark.django_db
+def test_sign_out_endpoint(client: Client):
+    """
+    Tests the GET method of the sign out endpoint
+    and expects the user to be signed out
+    """
+
+    user = User.objects.create_user(username="username", password="password")
+
+    client.force_login(user=user)
+    response = client.get(reverse("sign-out"), HTTP_HX_REQUEST="true")
+
+    assert response.status_code == 200
+    assert not client.session.get("_auth_user_id")
