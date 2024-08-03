@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
@@ -106,3 +106,20 @@ def sign_up(request: HttpRequest) -> HttpResponse:
         return HttpResponseClientRedirect("/")
 
     return render(request, "auth/sign-up.html")
+
+
+@require_http_methods(["GET"])
+def sign_out(request: HttpRequest) -> None:
+    """
+    The sign out endpoint
+
+    Parameters
+    ----------
+    request : HttpRequest
+        The request object
+    """
+
+    if request.htmx:
+        logout(request)
+
+        return HttpResponseClientRedirect("/sign-in")
