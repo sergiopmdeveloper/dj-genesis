@@ -13,8 +13,5 @@ __pycache__
 # Node modules
 node_modules
 
-# Tailwind CSS
-static/css/output.css
-
 # Environment variables
 .env
