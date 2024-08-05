@@ -2,12 +2,14 @@
   "scripts": {
     "dev": "concurrently \"webpack --watch --mode production\" \"tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch\"",
     "build": "webpack --mode production && tailwindcss -i ./static/css/input.css -o ./static/css/output.css",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "prepare": "husky"
   },
   "devDependencies": {
     "alpinejs": "^3.14.1",
     "concurrently": "^8.2.2",
     "htmx.org": "^2.0.1",
+    "husky": "^9.1.4",
     "tailwindcss": "^3.4.7",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4"
