@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "concurrently \"webpack --watch --mode production\" \"tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch\"",
     "build": "webpack --mode production && tailwindcss -i ./static/css/input.css -o ./static/css/output.css",
-    "prettier": "prettier . --check",
+    "prettier": "prettier \"**/*.js\" --check",
     "postinstall": "npm run build",
     "prepare": "husky"
   },

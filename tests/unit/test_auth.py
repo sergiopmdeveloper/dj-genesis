@@ -6,7 +6,7 @@ from auth.utils.sign_in import SignInHandler
 from auth.utils.sign_up import SignUpHandler
 
 
-def test_sign_in_handler_init(client: Client):
+def test_sign_in_handler_initialization(client: Client):
     """
     Tests the initialization of the sign in handler
     and expects the attributes to be set correctly
@@ -55,7 +55,7 @@ def test_sign_in_handler_validate_data(
 @pytest.mark.django_db
 def test_sign_in_handler_validate_user_invalid_credentials(client: Client):
     """
-    Tests the validate_user method of the sign in handler
+    Tests the validate_user method of the sign in handler with invalid credentials
     and expects the user to be None and the errors to be set correctly
     """
 
@@ -67,14 +67,14 @@ def test_sign_in_handler_validate_user_invalid_credentials(client: Client):
 
     sign_in_handler.validate_user()
 
-    assert sign_in_handler.user is None
+    assert not sign_in_handler.user
     assert sign_in_handler.errors == ["Invalid credentials."]
 
 
 @pytest.mark.django_db
 def test_sign_in_handler_validate_user_valid_credentials(client: Client):
     """
-    Tests the validate_user method of the sign in handler
+    Tests the validate_user method of the sign in handler with valid credentials
     and expects the user to be set correctly and the errors to be empty
     """
 
@@ -92,7 +92,7 @@ def test_sign_in_handler_validate_user_valid_credentials(client: Client):
     assert sign_in_handler.errors == []
 
 
-def test_sign_up_handler_init():
+def test_sign_up_handler_initialization():
     """
     Tests the initialization of the sign up handler
     and expects the attributes to be set correctly
