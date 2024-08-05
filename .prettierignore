@@ -6,6 +6,7 @@ bundle.js
 
 # YAML files
 *.yaml
+*.yml
 
 # Markdown files
 *.md
