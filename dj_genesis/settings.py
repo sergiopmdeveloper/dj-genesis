@@ -1,4 +1,9 @@
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-=19%dh2e$lww8i+@cukox!+cb0(l=ht*#*_&t29h41hl77b8zv"
@@ -46,11 +51,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "dj_genesis.wsgi.application"
 
-DATABASES = {
-    "default": {
+ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
+
+DATABASES_BY_ENVIRONMENT = {
+    "dev": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    "test": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "test_db",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "localhost",
+        "PORT": "5432",
+    },
+}
+
+DATABASES = {
+    "default": DATABASES_BY_ENVIRONMENT[ENVIRONMENT],
 }
 
 AUTH_PASSWORD_VALIDATORS = [
