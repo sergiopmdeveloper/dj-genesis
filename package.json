@@ -1,10 +1,15 @@
 {
   "scripts": {
+    "watch:webpack": "webpack --watch --mode development",
     "watch:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch",
     "build:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css",
     "postinstall": "npm run build:css"
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.7"
+    "alpinejs": "^3.14.1",
+    "htmx.org": "^2.0.1",
+    "tailwindcss": "^3.4.7",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
   }
 }
