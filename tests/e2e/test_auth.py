@@ -49,7 +49,7 @@ def test_sign_in_post_invalid_data(client: Client):
 @pytest.mark.django_db
 def test_sign_in_post_invalid_user(client: Client):
     """
-    Tests the POST method of the sign in view with invalid user
+    Tests the POST method of the sign in view with an invalid user
     and expects the response to be successful and the correct templates to be used
     """
 
@@ -68,7 +68,7 @@ def test_sign_in_post_invalid_user(client: Client):
 @pytest.mark.django_db
 def test_sign_in_post_success(client: Client):
     """
-    Tests the POST method of the sign in view with valid data
+    Tests the POST method of the sign in view with valid data and user
     and expects the response to be successful and the user to be authenticated
     """
 
@@ -129,7 +129,7 @@ def test_sign_up_post_invalid_data(client: Client):
 @pytest.mark.django_db
 def test_sign_up_post_invalid_user(client: Client):
     """
-    Tests the POST method of the sign up view with invalid user
+    Tests the POST method of the sign up view with an invalid user
     and expects the response to be successful and the correct templates to be used
     """
 
@@ -154,7 +154,7 @@ def test_sign_up_post_invalid_user(client: Client):
 @pytest.mark.django_db
 def test_sign_up_post_success(client: Client):
     """
-    Tests the POST method of the sign up view with valid data
+    Tests the POST method of the sign up view with valid data and user
     and expects the response to be successful and the user to be authenticated
     """
 
