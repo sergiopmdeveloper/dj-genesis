@@ -1,0 +1,11 @@
+# JavaScript bundle
+bundle.js
+
+# HTML templates
+*.html
+
+# YAML files
+*.yaml
+
+# Markdown files
+*.md
