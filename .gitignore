@@ -15,3 +15,6 @@ node_modules
 
 # Tailwind CSS
 static/css/output.css
+
+# Environment variables
+.env
