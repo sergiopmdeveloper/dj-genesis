@@ -38,7 +38,7 @@ Welcome to dj-genesis! 🚀 This Django template is your ultimate starter kit, p
   python manage.py runserver
 ```
 
-2. For active development, run the webpack dev script:
+2. For active development, run the dev script:
 ```bash
   npm run dev
 ```
